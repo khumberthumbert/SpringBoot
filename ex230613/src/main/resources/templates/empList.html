@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"> 
+<head>
+<meta charset="UTF-8">
+<title>전체 사원 조회</title>
+<script th:inline="javascript">
+	function getCtx(){
+		return /*[[${#httpServletRequest.getContextPath()}]]*/'';
+	}
+</script>
+</head>
+<body>
+
+<!-- <!-- JSP랑 다르게 자바랑 섞인게 아님. 얘는 그냥 템플릿 엔진으로서 사용하는 것. -->
+<!-- c태그의 forEach랑 같음.
+	<div th:each="emp : ${empList}">
+	text속성에 값을 넣는.
+		<p th:text="${emp.lastName}">
+	</div> -->
+	<div>
+		<button type="button" th:onclick="|location.href='@{/empInsert}'|" th:text='등록'></button>
+		<table>
+			<thead>
+				<tr>
+					<th>employee_id</th>
+					<th>first_name</th>
+					<th>job_id</th>
+					<th>hire_date</th>
+				</tr>
+			</thead>
+			<tbody>
+			<!-- html의 template 태그랑 같음. th:block. 내부에 존재하는 레이아웃이나 이런 것들을 모아주는 역할 정도만. 반복하고자 하는 내용을 
+			블락태그로 감싸주고, 거기다가 each를 걸어서 반복. 이게 더 직관적이다. -->
+				<th:block th:each="empInfo, stat : ${empList}">
+					<!-- c태그랑 가장 큰 부분이 뭐냐면 c태그 자체가 태그이기 때문에 반복되는 부분에 대해서 한꺼번에 '감싸버린다'
+					타임리프는 자체태그가 블락태그말고는 없다. 그래서 반복하고자 하는 대상에 대해서 내부에 each가 들어감. -->
+					<!-- 중간에 클론. 왼쪽은 우리가 사용하고자 하는 임시 변수. 오른쪽은  el태그. 서버가 보내준 값을 담는다.-->
+					<!-- 우리가 몇번 째 값을 출력하고 있는지에 대한 정보가 필요하다면 그 정보를 담을 임시 변수를 콤마하고 하나 적어주면 된다.-->
+					<!-- onclick="location.href=''"방식 타임리프 방식. -->
+					<!-- location.href='' 두개는 문자열이라는 말임.  -->
+					<!-- 경로 값 붙일 때 물음표 아니고 괄호를 붙임 그 괄호 안에 key랑 값 넣어줌. 근데 타임리프가 가지고 있는 변수.원하는값 입력해줘야함.-->
+					<!--자바스크립트의 뺵키랑 같다고 생각하면 됨. 문자열 포맷 안에 자바스크립트의 변수가 사용될 수 있듯이. -->
+					<!-- @{경로(키=value, 키=value)} -->
+					<tr th:id="${stat.index}" 
+							th:onclick="|location.href='@{/empInfo(employeeId=${empInfo.employeeId})}'|">
+						<td th:text="${empInfo.employeeId}"/>
+						<td th:text="${empInfo.firstName}"/>
+						<td>[[${empInfo.jobId}]]</td>
+						<td>[[${#dates.format(empInfo.hireDate, 'yyyy년MM월dd일')}]]</td>
+						<!-- 첫번째 인수는 내가 넘기고자 하는 데이터, 두번째는 내가 출력하고자하는 양식 -->
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+	</div>
+	
+</body>
+</html>

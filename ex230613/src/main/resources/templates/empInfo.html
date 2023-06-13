@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>사원 정보</title>
+</head>
+<body>
+	<div>
+		<div>
+			<label id="empId">사원번호</label>
+			<input type="text" id="empId" th:value="${empInfo.employeeId}" readonly>
+		</div>
+		<div>
+			<label id="name">이름</label>
+			<!-- #strings -> String 타입 처리. isEmpty는 널인지 값이 있는지 체크. true면 값이 없다는 것임. -->
+			<input type="text" id="name" th:value="${#strings.isEmpty(empInfo.firstName) ? empInfo.lastName : empInfo.lastName + ', ' + empInfo.firstName}" readonly>
+		</div>
+		<div>
+			<label id="email">이메일</label>
+			<input type="text" id="email" th:value="${empInfo.email}" readonly>
+		</div>
+		<div>
+			<label id="hireDate">입사일</label>
+			<input type="text" id="hireDate" th:value="${#dates.format(empInfo.hireDate, 'yyyy-MM-dd')}" readonly>
+		</div>
+		<div>
+			<label id="job">업무</label>
+			<input type="text" id="job" th:value="${empInfo.jobId}" readonly>
+		</div>
+		<div>
+			<button type="button" th:onclick="|location.href='@{/empList}'|" th:text="목록"></button>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>사원 등록</title>
+</head>
+<body>
+<!-- 페이지 만들면서 자동으로 클래스 기반 객체가 만들어지는 것은 아니다. 이런 형태로 form태그에 맵핑시키고 싶으면 controller로 가서. 매개변수에 model주고 거기서 받는다.
+객체 이름에 주의하자. -->
+	<form th:action="@{/empInsert}" method="POST" th:object="${empVO}">
+		<div>
+		<!-- input의 name 속성이 키 값이 되어서 중요 했는데 타임리프 쓰면은 object로 별도의 이름 지정 없이 다이렉트로 비어있는 값을 매핑시켜버린다. -->
+			<label id="empId">사원번호</label>
+			<input type="text" id="empId" th:field="*{employeeId}">
+		</div>
+		<div>
+			<label id="name">이름</label>
+			<!-- #strings -> String 타입 처리. isEmpty는 널인지 값이 있는지 체크. true면 값이 없다는 것임. -->
+			<input type="text" id="name" th:field="*{lastName}">
+		</div>
+		<div>
+			<label id="email">이메일</label>
+			<input type="text" id="email" th:field="*{email}">
+		</div>
+		<div>
+			<label id="hireDate">입사일</label>
+			<input type="text" id="hireDate" th:field="*{hireDate}">
+		</div>
+		<div>
+			<label id="job">업무</label>
+			<input type="text" id="job" th:field="*{jobId}">
+		</div>
+		<div>
+			<button type="submit">등록</button>
+			<button type="reset">취소</button>
+		</div>
+	</form>
+</body>
+</html>
